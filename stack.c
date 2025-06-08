@@ -70,6 +70,7 @@ void stack(){
 	for(;;){
 		clear();
 		mvaddstr(0, 0, "Unidirectional linked list stack implementation.\nPush and pop operations are done to the head of list.");
+		srand(time(0));
 		push_v = rand() % 100;
 		if(head != NULL)
 			sprintf(s, "Press [p] to push [%d] to stack, [d] to pop [%d] stack or [q] to finish.", push_v, head->key);

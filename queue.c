@@ -79,11 +79,12 @@ void queue(){
 		for(;;){
 			clear();
 			mvaddstr(0, 0, "Unidirectional linked list queue implementation.\nEnqueue operation is done to tail of list, dequeue operation is done to the head of list.");
+			srand(time(0));
 			elem_v = rand() % 100;
 			if(head != NULL)
 				sprintf(s, "Press [p] to enqueue [%d] to queue, [d] to dequeue [%d] from queue [q] to finish.", elem_v, head->key);
 			else
-				sprintf(s, "Press [p] to push [%d] to stack or [q] to finish.", elem_v);
+				sprintf(s, "Press [p] to enqueue [%d] to queue or [q] to finish.", elem_v);
 			mvaddstr(3, 0, s);
 			s[0] = '\0';
 			print_queue(head);
