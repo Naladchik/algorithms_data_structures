@@ -18,7 +18,7 @@ struct vert{
 	struct vert * next;
 };
 
-struct vert * head = NULL;
+static struct vert * head = NULL;
 
 void print_stack(struct vert * h){
 	struct vert * p = h;
