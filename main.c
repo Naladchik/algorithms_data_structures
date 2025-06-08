@@ -8,17 +8,19 @@
 #include <ncurses.h>
 #include "queue.h"
 #include "stack.h"
+#include "binary_tree.h"
 
-#define QUANTITY 2
+#define QUANTITY 3
 
 typedef void (*fptr_t)(void);
 
 char * name_list[QUANTITY] = {
 		"Queue",
-		"Stack"
+		"Stack",
+		"Binary Tree operations"
 };
 
-fptr_t catalogue[QUANTITY] = {queue, stack};
+fptr_t catalogue[QUANTITY] = {queue, stack, bin_tree};
 
 void foo(){
 
