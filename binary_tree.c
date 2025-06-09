@@ -44,8 +44,7 @@ struct vert * create_from_matrix(){
 	int lr;  // may be 0 or 1 what means left or right
 	for(int i = 0; i < NODE_NUM; i++){
 		v_arr[i].key = key_matr[i];
-		v_arr[i].left = NULL;
-		v_arr[i].right = NULL;
+		v_arr[i].left = v_arr[i].right = NULL;
 		lr = 0;
 		for(int j = 0; j < NODE_NUM; j++){
 			if(adj_matr[i][j]){
@@ -61,6 +60,23 @@ struct vert * create_from_matrix(){
 	}
 
 	return &v_arr[ROOT_NUM];
+}
+
+struct vert * new_element(int k){
+	struct vert * p = malloc(sizeof(struct vert *));
+	p->key = k;
+	p->left = p->right = NULL;
+	return p;
+}
+
+struct vert * insert_element(struct vert * h, int k){
+	if(h == NULL) return new_element(k);
+	if(h->key == k) return h;
+	if(h->key < k)
+		h->right = insert_element(h->right, k);
+	else
+		h->left = insert_element(h->left, k);
+	return h;
 }
 
 unsigned int return_height(struct vert * h){
@@ -126,11 +142,25 @@ void print_tree(struct vert * h){
 }
 
 void bin_tree(){
-	head = create_from_matrix();
-	clear();
-	sprintf(s, "binary tree:");
-	mvaddstr(0, 0, s);
-	print_tree(head);
-	refresh();
-	getch();
+	//head = create_from_matrix();
+	char ch;
+	int elem_v;
+//	srand(time(0));
+//	elem_v = rand() % 100;
+//	head = new_element(elem_v);
+	for(;;){
+		clear();
+		srand(time(0));
+		elem_v = rand() % 100;
+		sprintf(s, "Binary tree. Press [a] to add [%d] or [q] to finish.", elem_v);
+		mvaddstr(0, 0, s);
+		if(head != NULL) print_tree(head);
+		refresh();
+		ch = getch();
+		if('q' == ch){
+			break;
+		}else if('a' == ch){
+			head = insert_element(head, elem_v);
+		}
+	}
 }
