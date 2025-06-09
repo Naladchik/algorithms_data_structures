@@ -84,7 +84,7 @@ struct vert * create_from_matrix(){
 	return &v_arr[ROOT_NUM];
 }
 
-int return_height(struct vert * h){
+unsigned int return_height(struct vert * h){
 	if(h == NULL){
 		return -1;
 	}
@@ -127,43 +127,31 @@ struct vert * fetch_node(struct vert * h, unsigned int layer, unsigned int shift
 	return p;
 }
 
-void print_crappy(struct vert * h){
-//	unsigned int i = 0;
-//	int j = 0;
-
-	sprintf(s, "%d", fetch_node(h, 0, 0)->key);
-	mvaddstr(ACT_BEGIN,     HALF_STEP * 3 , s);
-	sprintf(s, "%d", fetch_node(h, 1, 0)->key);
-	mvaddstr(ACT_BEGIN + 1, HALF_STEP * 1, s);
-	sprintf(s, "%d", fetch_node(h, 1, 1)->key);
-	mvaddstr(ACT_BEGIN + 1, HALF_STEP * 5, s);
-	sprintf(s, "%d", fetch_node(h, 2, 0)->key);
-	mvaddstr(ACT_BEGIN + 2, HALF_STEP * 0, s);
-	sprintf(s, "%d", fetch_node(h, 2, 1)->key);
-	mvaddstr(ACT_BEGIN + 2, HALF_STEP * 2, s);
-	sprintf(s, "%d", fetch_node(h, 2, 2)->key);
-	mvaddstr(ACT_BEGIN + 2, HALF_STEP * 4, s);
-	sprintf(s, "%d", fetch_node(h, 2, 3)->key);
-	mvaddstr(ACT_BEGIN + 2, HALF_STEP * 6, s);
-
-//	for(unsigned int i = 0; i < T_HIGHT; i++){
-//		for(int j = 0; j < (i <<= i); j++){
-//
-//		}
-//	}
+void print_tree(struct vert * h){
+	unsigned int t_height = return_height(h);
+	unsigned int max_shift = 1;
+	unsigned int hor_shift = 1;
+	unsigned int hor_step;
+	for(unsigned int i = 0; i <= t_height; i++){
+		hor_shift = (1<<(t_height - i)) - 1;
+		hor_step = t_height - i + 1;
+		for(unsigned int j = 0; j < max_shift; j++){
+			struct vert * p = fetch_node(h, i, j);
+			if(p != NULL){
+				sprintf(s, "%d", p->key);
+				mvaddstr(ACT_BEGIN + i, (hor_shift + j * 2 * hor_step) * HALF_STEP, s);
+			}
+		}
+		max_shift *= 2;
+	}
 }
 
 void bin_tree(){
 	head = create_from_matrix();
 	clear();
-	int v = return_height(head);
-	sprintf(s, "tree has hight: %d", v);
+	sprintf(s, "binary tree:");
 	mvaddstr(0, 0, s);
-	print_crappy(head);
+	print_tree(head);
 	refresh();
 	getch();
 }
-
-//void bin_tree(){
-//
-//}
