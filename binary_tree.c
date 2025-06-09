@@ -31,7 +31,7 @@ int key_matr[NODE_NUM] = {1, 2, 3, 4, 5, 6, 7};
 int adj_matr[NODE_NUM][NODE_NUM] = {
 		      /* 1  2  3  4  5  6  7 */
 		/* 1 */ {0, 0, 0, 0, 0, 0, 0},
-		/* 2 */ {1, 0, 0, 0, 0, 1, 0},
+		/* 2 */ {1, 0, 1, 0, 0, 0, 0},
 		/* 3 */ {0, 0, 0, 0, 0, 0, 0},
 		/* 4 */ {0, 1, 0, 0, 0, 1, 0},
 		/* 5 */ {0, 0, 0, 0, 0, 0, 0},
@@ -41,45 +41,24 @@ int adj_matr[NODE_NUM][NODE_NUM] = {
 
 struct vert * create_from_matrix(){
 	struct vert * v_arr = (struct vert *)malloc(sizeof(struct vert) * NODE_NUM);
-//	int lr;  // may be 0 or 1 what means left or right
-//	for(int i = 0; i < NODE_NUM; i++){
-//		v_arr[i].key = key_matr[i];
-//		v_arr[i].left = NULL;
-//		v_arr[i].right = NULL;
-//		lr = 0;
-//		for(int j = 0; j < NODE_NUM; j++){
-//			if(adj_matr[i][j]){
-//				if(lr == 0){
-//					v_arr[i].left = &v_arr[j];
-//					lr = 1;
-//				}else{
-//					v_arr[i].right = &v_arr[j];
-//					lr = 0;
-//				}
-//			}
-//		}
-//	}
-	v_arr[0].key = 1;
-	v_arr[1].key = 2;
-	v_arr[2].key = 3;
-	v_arr[3].key = 4;
-	v_arr[4].key = 5;
-	v_arr[5].key = 6;
-	v_arr[6].key = 7;
-	v_arr[3].left = &v_arr[1];
-	v_arr[3].right = &v_arr[5];
-	v_arr[1].left = &v_arr[0];
-	v_arr[1].right = &v_arr[2];
-	v_arr[5].left = &v_arr[4];
-	v_arr[5].right = &v_arr[6];
-	v_arr[0].left = NULL;
-	v_arr[0].right = NULL;
-	v_arr[2].left = NULL;
-	v_arr[2].right = NULL;
-	v_arr[4].left = NULL;
-	v_arr[4].right = NULL;
-	v_arr[6].left = NULL;
-	v_arr[6].right = NULL;
+	int lr;  // may be 0 or 1 what means left or right
+	for(int i = 0; i < NODE_NUM; i++){
+		v_arr[i].key = key_matr[i];
+		v_arr[i].left = NULL;
+		v_arr[i].right = NULL;
+		lr = 0;
+		for(int j = 0; j < NODE_NUM; j++){
+			if(adj_matr[i][j]){
+				if(lr == 0){
+					v_arr[i].left = &v_arr[j];
+					lr = 1;
+				}else{
+					v_arr[i].right = &v_arr[j];
+					lr = 0;
+				}
+			}
+		}
+	}
 
 	return &v_arr[ROOT_NUM];
 }
