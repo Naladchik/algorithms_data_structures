@@ -7,14 +7,14 @@
 #include <dirent.h>
 #include <ncurses.h>
 #include <time.h>
+#include <math.h>
 #include "binary_tree.h"
 
 #define NODE_NUM 7
 #define ROOT_NUM 3 //key 4, the middle because it is a binary tree
 
 #define ACT_BEGIN 5
-#define T_HIGHT 2
-#define HALF_STEP 4
+#define HALF_STEP 2
 
 static char s[300] = {'\0'};
 
@@ -125,17 +125,15 @@ struct vert * fetch_node(struct vert * h, unsigned int layer, unsigned int shift
 void print_tree(struct vert * h){
 	unsigned int t_height = return_height(h);
 	unsigned int max_shift = 1;
-	unsigned int hor_shift = 1;
-	unsigned int hor_step;
 	for(unsigned int i = 0; i <= t_height; i++){
-		hor_shift = (1<<(t_height - i)) - 1;
-		hor_step = t_height - i + 1;
 		for(unsigned int j = 0; j < max_shift; j++){
 			struct vert * p = fetch_node(h, i, j);
 			if(p != NULL){
 				sprintf(s, "%d", p->key);
-				mvaddstr(ACT_BEGIN + i, (hor_shift + j * 2 * hor_step) * HALF_STEP, s);
+			}else{
+				sprintf(s, "%c", 'x');
 			}
+			mvaddstr(ACT_BEGIN + 2 * i, (pow(2, t_height - i) - 1 + j * pow(2, t_height - i + 1)) * HALF_STEP, s);
 		}
 		max_shift *= 2;
 	}
